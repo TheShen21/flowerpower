@@ -9,7 +9,7 @@
         $id = $_GET['id'];
         $delete = mysqli_query($link,"DELETE FROM `artikel` WHERE `idartikel`='$id'");
     }
-    
+
 
 ?>
 <!DOCTYPE html>
