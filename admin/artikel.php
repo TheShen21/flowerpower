@@ -1,6 +1,6 @@
 <?php
 
-require_once "backend/config.php";
+require_once "../backend/config.php";
 
 $name = $_POST["name"];
 $opmerking = $_POST["opmerking"];
