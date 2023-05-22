@@ -8,7 +8,7 @@
 <body>
 <h1>Artikel</h1>
 
-<form action="artikel.php" method="post">
+<form action="artikel.php" method="post" enctype="multipart/form-data">
     <label for="name">Naam</label>
     <input type="text" id="name" name="name" required>
 
@@ -21,7 +21,13 @@
     <label for="opslag">opslag</label>
     <input type="number" id="opslag" name="opslag" required>
 
-    <button>Create</button>
+    <input type="file" name="upload" id="upload" required>
+
+    <button type="submit" name="submit">Create</button>
 </form>
+<script>
+
+
+</script>
 </body>
 </html>
