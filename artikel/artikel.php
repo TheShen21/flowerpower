@@ -8,7 +8,7 @@ if(isset($_POST["submit"])) {
     $opslag = $_POST["opslag"];
 
 //upload foto
-    $image_dir = "../image/";
+    $image_dir = "image/";
     $image_file = $image_dir . basename($_FILES["upload"]["name"]);
     $product_image = $image_dir . $_FILES["upload"]["name"];
     $image_dir . $_FILES["upload"]["name"];
