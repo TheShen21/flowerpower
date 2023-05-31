@@ -1,8 +1,7 @@
 <?php
+include('include/header.php');
+include('include/database.php');
 
-session_start();
-
-require_once "../backend/config.php";
 
 
 
@@ -13,12 +12,12 @@ if(isset($_POST['add_to_cart'])){
     $product_image = $_POST['product_image'];
     $product_quantity = 1;
 
-    $select_cart = mysqli_query($link, "SELECT * FROM winkelwagen WHERE name = '$product_name'");
+    $select_cart = mysqli_query($link, "SELECT * FROM $winkelwagen WHERE name = '$product_name'");
 
     if(mysqli_num_rows($select_cart) > 0){
         $message[] = 'product already added to cart';
     } else{
-        $insert_product = mysqli_query($link, "INSERT INTO winkelwagen (name, prijs, image, quantity) VALUES('$product_name', '$product_price', '$product_image', '$product_quantity')");
+        $insert_product = mysqli_query($link, "INSERT INTO $winkelwagen (name, prijs, image, quantity) VALUES('$product_name', '$product_price', '$product_image', '$product_quantity')");
         $message[] = 'product added to cart';
 
     }
@@ -29,17 +28,8 @@ if(isset($_POST['add_to_cart'])){
 
 ?>
 
-<!
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Product_pagina</title>
-    <link rel="stylesheet" href="product.css">
-</head>
-<body >
+
+
 
 <?php
 if(isset($message)){
@@ -50,7 +40,7 @@ if(isset($message)){
 ?>
 
 
-<?php include ('../include/header.php'); ?>
+
     <main class="container">
 
             <form action="" method="post">
@@ -61,10 +51,10 @@ if(isset($message)){
                     ?>
                     <form action="" method="post">
                         <div class="product">
-                            <img class="product-image" src="<?php echo $fetch_product['image']?>" height="175" width="175" alt = "">
+                            <img class="product-image" src="admin/<?php echo $fetch_product['image']?>" height="175" width="175" alt = "">
                             <h3 class="product-title" ><?php echo $fetch_product['naam']; ?></h3>
-                            <div class="product-description"><?php echo $fetch_product['omschrijving'];?></div>
-                            <div class="product-price"><?php echo $fetch_product['prijs']; ?></div>
+                            <div class="product-description">Beschrijving:<br> <?php echo $fetch_product['omschrijving'];?></div>
+                            <div class="product-price">€<?php echo $fetch_product['prijs']; ?></div>
                             <input type="hidden" name="product_name" value="<?php echo $fetch_product['naam']; ?>">
                             <input type="hidden" name="product_price" value="<?php echo $fetch_product['prijs']; ?>">
                             <input type="hidden" name="product_image" value="<?php echo $fetch_product['image']; ?>">
@@ -79,7 +69,5 @@ if(isset($message)){
             </form>
 
     </main>
-    <?php include ('../include/footer.php'); ?>
+    <?php include('include/footer.php'); ?>
 
-</body>
-</html>

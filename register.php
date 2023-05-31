@@ -1,6 +1,7 @@
 <?php
 // Include config file
 require_once "backend/config.php";
+include('include/header.php');
 
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
@@ -79,6 +80,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if(mysqli_stmt_execute($stmt)){
                 // Redirect to login page
                 header("location: login.php");
+
+
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
             }
@@ -93,15 +96,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./styles/account.css">
-</head>
-<body>
+
 <div class="wrapper">
     <h2>Sign Up</h2>
     <p>Please fill this form to create an account.</p>
@@ -128,5 +123,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <p>Already have an account? <a href="login.php">Login here</a>.</p>
     </form>
 </div>
-</body>
-</html>
+<?php include('include/footer.php'); ?>
