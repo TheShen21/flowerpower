@@ -58,12 +58,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
 
-                            $add_table = "CREATE TABLE IF NOT EXISTS winkelwagen$id
-                            (idcart int PRIMARY KEY AUTO_INCREMENT, name varchar (255), prijs varchar (255), image varchar (255), quantity INT)";
-                            if ($link->query($add_table) === true) {
-                              echo "gelukt";
-                           }
-
                             // Redirect user to welcome page
                             header("location: index.php");
                         } else{
@@ -89,10 +83,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
 
+    <br><br><br><br><br>
 
 <div class="wrapper">
     <h2>Login</h2>
-    <p>Please fill in your credentials to login.</p>
+    <p>Vul de login gegevens in</p>
 
     <?php
     if(!empty($login_err)){
@@ -114,7 +109,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value="Login">
         </div>
-        <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+        <p>Geen account? <a href="register.php">Hier registreren</a>.</p>
     </form>
 </div>
+    <br><br><br><br><br>
 <?php include('include/footer.php'); ?>

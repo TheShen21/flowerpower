@@ -1,5 +1,5 @@
 <?php
-
+include "incl_admin.php";
 require_once "../backend/config.php";
 if(isset($_POST["submit"])) {
     $name = $_POST["name"];

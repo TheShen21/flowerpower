@@ -1,7 +1,7 @@
 <?php
 session_start();
 ?>
-<!
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -23,27 +23,28 @@ session_start();
 
 
         }
-
-        $table = "winkelwagen";
-        $winkelwagen = $table. $id;
         require_once "backend/config.php";
-        $select_rows = mysqli_query($link, "SELECT * FROM $winkelwagen") or die('query failed');
-        $row_count = mysqli_num_rows($select_rows);
+
+
 
         ?>
         <ul>
-            <li><a href="artikelpage.php">Artikel</a> </li>
+            <li class="header-li"><a href="index.php">Home</a> </li>
+            <li class="header-li"><a href="artikelpage.php">Artikel</a> </li>
+            <li class="header-li"><a href="contact.php">Contact</a></li>
             <?php
             if(isset($_SESSION["loggedin"]) > 0){
-                echo "<li><a href='profile.php'>Profile page</a></li>";
-                echo "<li><a href='logout.php'>logout</a></li>";
+                echo "<li class='header-li'><a href='profielmenu.php'>Profile page</a></li>";
+                echo "<li class='header-li'><a href='logout.php'>logout</a></li>";
             }
             else{
-                echo "<li><a href='register.php'>Register</a></li>";
-                echo "<li><a href='login.php'>login</a></li>";
+                echo "<li class='header-li'><a href='register.php'>Register</a></li>";
+                echo "<li class='header-li'><a href='login.php'>login</a></li>";
             }
             ?>
-            <li><a href="cart.php">cart <span><?php echo $row_count; ?></span></a></li>
+            <li class="header-li"><a href="cart.php">Winkelwagen <span><?php if(isset($_SESSION['cart'])) {
+                echo count($_SESSION['cart']);
+                        } ?></span></a></li>
         </ul>
     </div>
 </nav>

@@ -3,28 +3,43 @@ include('include/header.php');
 include('include/database.php');
 
 
+// Check if product is coming or not
+if (isset($_GET['pro_id'])) {
+    $proid = $_GET['pro_id'];
 
 
-if(isset($_POST['add_to_cart'])){
 
-    $product_name = $_POST['product_name'];
-    $product_price = $_POST['product_price'];
-    $product_image = $_POST['product_image'];
-    $product_quantity = 1;
+    // If session cart is not empty
+    if (!empty($_SESSION['cart'])) {
 
-    $select_cart = mysqli_query($link, "SELECT * FROM $winkelwagen WHERE name = '$product_name'");
+        // Using "array_column() function" we get the product id existing in session cart array
+        $acol = array_column($_SESSION['cart'], 'pro_id');
 
-    if(mysqli_num_rows($select_cart) > 0){
-        $message[] = 'product already added to cart';
-    } else{
-        $insert_product = mysqli_query($link, "INSERT INTO $winkelwagen (name, prijs, image, quantity) VALUES('$product_name', '$product_price', '$product_image', '$product_quantity')");
-        $message[] = 'product added to cart';
+        // now we compare whther id already exist with "in_array() function"
+        if (in_array($proid, $acol)) {
 
+            // Updating quantity if item already exist
+            $_SESSION['cart'][$proid]['qty'] += 1;
+
+        } else {
+
+            // If item doesn't exist in session cart array, we add a new item
+            $item = [
+                'pro_id' => $_GET['pro_id'],
+                'qty' => 1
+            ];
+            $_SESSION['cart'][$proid] = $item;
+        }
+    } else {
+
+        // If cart is completely empty, then store item in session cart
+        $item = [
+            'pro_id' => $_GET['pro_id'],
+            'qty' => 1
+        ];
+        $_SESSION['cart'][$proid] = $item;
     }
-
-
 }
-
 
 ?>
 
@@ -58,7 +73,7 @@ if(isset($message)){
                             <input type="hidden" name="product_name" value="<?php echo $fetch_product['naam']; ?>">
                             <input type="hidden" name="product_price" value="<?php echo $fetch_product['prijs']; ?>">
                             <input type="hidden" name="product_image" value="<?php echo $fetch_product['image']; ?>">
-                            <input type="submit" class="product-button" value="add to cart" name="add_to_cart">
+                            <a href="artikelpage.php?pro_id=<?php echo $fetch_product['idartikel']; ?>" class="btn btn-success">Add to cart</a>
                         </div>
                     </form>
 

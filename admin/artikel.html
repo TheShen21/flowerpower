@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <link rel="stylesheet" href="adminstyle/artikel.css">
 </head>
+<header>
+    <h1>Artikel</h1>
+</header>
 <body>
-<h1>Artikel</h1>
-
-<form action="artikel.php" method="post" enctype="multipart/form-data">
+<div class="container">
+<form action="artikel.php" method="post" enctype="multipart/form-data" class="artikel">
     <label for="name">Naam</label>
     <input type="text" id="name" name="name" required>
 
@@ -25,6 +27,8 @@
 
     <button type="submit" name="submit">Create</button>
 </form>
+</div>
+<a href="artikellijst.php">Terug</a>
 <script>
 
 

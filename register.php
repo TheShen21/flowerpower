@@ -95,11 +95,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     mysqli_close($link);
 }
 ?>
-
+<br><br><br><br><br>
 
 <div class="wrapper">
     <h2>Sign Up</h2>
-    <p>Please fill this form to create an account.</p>
+    <p>Vul je gegevens hier in</p>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <div class="form-group">
             <label>E-mail</label>
@@ -120,7 +120,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <input type="submit" class="btn btn-primary" value="Submit">
             <input type="reset" class="btn btn-secondary ml-2" value="Reset">
         </div>
-        <p>Already have an account? <a href="login.php">Login here</a>.</p>
+        <p>Heb je al een account? <a href="login.php">Login hier</a>.</p>
     </form>
 </div>
+<br><br><br><br><br>
 <?php include('include/footer.php'); ?>

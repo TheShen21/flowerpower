@@ -1,0 +1,20 @@
+h2{
+    font-family: Verdana, Geneva, Tahoma, Sans-Serif;
+
+}
+h3{
+    font-family: Verdana, Geneva, Tahoma, Sans-Serif;
+
+}
+table{
+    font-family: Arial, Helvetica, Sans-Serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+td, th{
+    border: 1px solid #444;
+    padding: 8px;
+}
+.my-table{
+    text-align: right;
+}

@@ -1,27 +1,7 @@
 <?php
 include "include/database.php";
 include('include/header.php');
-
-
-if(isset($_POST['update_update_btn'])){
-    $update_value = $_POST['update_quantity'];
-    $update_id = $_POST['update_quantity_id'];
-    $update_quantity_query = mysqli_query($link, "UPDATE $winkelwagen SET quantity = '$update_value' WHERE idcart = '$update_id'");
-    if($update_quantity_query){
-        header('location:cart.php');
-    };
-};
-
-if(isset($_GET['remove'])){
-    $remove_id = $_GET['remove'];
-    mysqli_query($link, "DELETE FROM $winkelwagen WHERE idcart = '$remove_id'");
-    header('location:cart.php');
-};
-
-if(isset($_GET['delete_all'])){
-    mysqli_query($link, "DELETE FROM $winkelwagen");
-    header('location:cart.php');
-}
+$grand_total = 0;
 
 ?>
 
@@ -29,71 +9,100 @@ if(isset($_GET['delete_all'])){
 
 
 
-<div class="container">
-
-    <section class="shopping-cart">
-
-        <h1 class="heading">shopping cart</h1>
-
-        <table>
-
+    <div class="container">
+        <table class="table my-3">
+            <a href="cart%20function/emptycart.php" class="btn btn-sm btn-danger mt-2">Winkelwagen leegmaken</a>
             <thead>
-            <th>image</th>
-            <th>name</th>
-            <th>price</th>
-            <th>quantity</th>
-            <th>total price</th>
-            <th>action</th>
+            <tr class="text-center">
+                <th>S.no</th>
+                <th>Image</th>
+                <th>Product Naam</th>
+                <th>Aantal</th>
+                <th>prijs</th>
+                <th>totaal prijs</th>
+            </tr>
             </thead>
-
             <tbody>
-
             <?php
 
-
-            $select_cart = mysqli_query($link, "SELECT * FROM $winkelwagen ");
-            $grand_total = 0;
-            if(mysqli_num_rows($select_cart) > 0){
-                while($fetch_cart = mysqli_fetch_assoc($select_cart)){
+            if (isset($_SESSION['cart'])) :
+                $i = 1;
+                foreach ($_SESSION['cart'] as $cart) :
                     ?>
+                    <tr class="text-center">
+                        <td><?php echo $i; ?> # </td>
+                        <?php
+                        $imageid = $cart['pro_id'];
 
-                    <tr>
-                        <td><img src="admin/<?php echo $fetch_cart['image']; ?>" height="100" alt=""></td>
-                        <td><?php echo $fetch_cart['name']; ?></td>
-                        <td>€<?php echo $fetch_cart['prijs']; ?></td>
+                        $sql = mysqli_query($link,"SELECT image FROM artikel WHERE idartikel = '$imageid'");
+                        if(mysqli_num_rows($sql) > 0){
+                            while ($fetch_image = mysqli_fetch_assoc($sql)){
+
+                        ?>
+                        <td><img src="admin/<?php echo $fetch_image['image']; ?>"></td>
+                        <?php
+                        }
+                        }
+                        ?>
+                        <?php
+                        $select_product = mysqli_query($link,"SELECT naam FROM artikel WHERE idartikel = '$imageid'");
+                        if(mysqli_num_rows($select_product) > 0){
+                        while ($fetch_naam = mysqli_fetch_assoc($select_product)){
+                        ?>
+                        <td><?php echo $fetch_naam['naam'] ?></td>
+                        <?php
+                        }
+                        }
+                            ?>
                         <td>
-                            <form action="" method="post">
-                                <input type="hidden" name="update_quantity_id"  value="<?php echo $fetch_cart['idcart']; ?>" >
-                                <input type="number" name="update_quantity" min="1"  value="<?php echo $fetch_cart['quantity']; ?>" >
-                                <input type="submit" value="update" name="update_update_btn">
+                            <form action="cart%20function/update.php" method="post">
+                                <input type="number" value="<?= $cart['qty']; ?>" name="qty" min="1">
+                                <input type="hidden" name="upid" value="<?= $cart['pro_id']; ?>">
+                                <input type="submit" name="update" value="Update" class="btn btn-sm btn-warning">
                             </form>
                         </td>
-                        <td>€<?php echo $sub_total = $fetch_cart['prijs'] * $fetch_cart['quantity']; ?></td>
-                        <td><a href="cart.php?remove=<?php echo $fetch_cart['idcart']; ?>" onclick="return confirm('remove item from cart?')" class="delete-btn"> <i class="fas fa-trash"></i> remove</a></td>
-                    </tr>
+
                     <?php
-                    $grand_total += $sub_total;
-                };
-            };
+                    $select_price = mysqli_query($link,"SELECT prijs FROM artikel WHERE idartikel = '$imageid'");
+
+                    if(mysqli_num_rows($select_price) > 0){
+                        while ($fetch_price = mysqli_fetch_assoc($select_price)){
+                            ?>
+                        <td>
+                            €<?php echo $fetch_price['prijs']?>
+                        </td>
+                            <td>
+                                €<?php echo $sub_total = $fetch_price['prijs'] * $cart['qty'] ; ?>
+                            </td>
+                            <?php
+                            $grand_total += $sub_total;
+                        }
+                    }
+                    ?>
+
+                        <td><a class="btn btn-sm btn-danger" href="cart%20function/removecartitem.php?id=<?= $cart['pro_id']; ?>">Remove</a></td>
+                    </tr>
+
+                    <?php
+                    $i++;
+                endforeach;
+            endif;
             ?>
             <tr class="table-bottom">
-                <td><a href="artikelpage.php" class="option-btn" style="margin-top: 0;">continue shopping</a></td>
-                <td colspan="3" >Grand total:</td>
+                <td></td>
+                <td colspan="3"></td>
+                <td>Totaal bedrag:</td>
                 <td>€<?php echo $grand_total; ?>/-</td>
-                <td><a href="cart.php?delete_all" onclick="return confirm('are you sure you want to delete all?');" class="delete-btn"> <i class="fas fa-trash"></i> delete all </a></td>
+
             </tr>
-
             </tbody>
-
         </table>
-
-        <div class="checkout-btn">
-            <a href="checkout.php" class="btn <?= ($grand_total > 1)?'':'disabled'; ?>">procced to checkout</a>
+        <div class="continue-btn">
+            <a href="artikelpage.php" class="bt" >Veder bestellen</a>
         </div>
-
-    </section>
-
-</div>
-
+        <div class="checkout-btn">
+            <a href="check.php" class="btn <?= ($grand_total > 1)?'':'disabled'; ?>">Bestelling plaatsen</a>
+        </div>
+    </div>
 
 <?php include('include/footer.php'); ?>
